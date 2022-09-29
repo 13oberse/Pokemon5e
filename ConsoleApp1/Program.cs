@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Common.Models.JsonClasses;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Common.Models.JsonClasses;
 
 namespace ConsoleApp1;
 
@@ -16,23 +16,55 @@ public static class Program
 
     public static async Task Main()
     {
-        const string ABILITIES = "abilities.json";
-        await using var abilityFileStream = File.OpenRead(Path.Combine(BASE_DIRECTORY, ABILITIES));
-        var abilities = await JsonSerializer.DeserializeAsync<Dictionary<string, PokemonJsonAbility>>(abilityFileStream, Options);
-        await SaveJson(abilities!, ABILITIES);
+        await CheckAndSave<Dictionary<string, PokemonJsonAbility>>("abilities.json");
+        await CheckAndSave<PokemonJsonMove>("Error_move.json");
+        await CheckAndSave<Dictionary<string, PokemonJsonEvolve>>("evolve.json");
+        await CheckAndSave<Dictionary<string, Dictionary<string, int>>>("exp_grid.json");
+        await CheckAndSave<Dictionary<string, PokemonJsonFeat>>("feats.json");
+        await CheckAndSave<Dictionary<string, PokemonJsonFilterData>>("filter_data.json");
+        await CheckAndSave<Dictionary<string, int>>("gender.json");
+        await CheckAndSave<Dictionary<string, List<string>>>("habitat.json");
+        await CheckAndSave<Dictionary<string, List<string>>>("index_order.json");
+        await CheckAndSave<Dictionary<string, PokemonJsonItem>>("items.json");
+        await CheckAndSave<Dictionary<string, PokemonJsonLeveling>>("leveling.json");
+        await CheckAndSave<PokemonJsonPokemon>("MissingNo.json");
+        await CheckAndSave<Dictionary<string, string>>("move_machines.json");
+        await CheckAndSave<Dictionary<string, Dictionary<string, int>>>("natures.json");
+        await CheckAndSave<Dictionary<string, PokemonJsonPokedexExtra>>("pokedex_extra.json");
+        await CheckAndSave<Dictionary<string, List<string>>>("trainer_classes.json");
+        await CheckAndSave<Dictionary<string, List<string>>>("variant_map.json");
 
-        var files = Directory.GetFiles(Path.Combine(BASE_DIRECTORY, "pokemon"));
-        var pokemon = new Dictionary<string, PokemonJsonPokemon>(files.Length);
+        await CheckAndSaveDirectory<PokemonJsonMove>("moves");
+        await CheckAndSaveDirectory<PokemonJsonPokemon>("pokemon");
+
+        Console.WriteLine("Done");
+    }
+
+    private static async Task<T> CheckFile<T>(string fileName, bool isCompletePath = false)
+    {
+        var path = isCompletePath ? fileName : Path.Combine(BASE_DIRECTORY, fileName);
+        await using var fileStream = File.OpenRead(path);
+        return (await JsonSerializer.DeserializeAsync<T>(fileStream, Options))!;
+    }
+
+    private static async Task CheckAndSave<T>(string fileName)
+    {
+        var jsonFile = await CheckFile<T>(fileName);
+        await SaveJson(jsonFile, fileName);
+    }
+
+    private static async Task CheckAndSaveDirectory<T>(string directory)
+    {
+        var files = Directory.GetFiles(Path.Combine(BASE_DIRECTORY, directory));
+        var dictionary = new Dictionary<string, T>(files.Length);
 
         foreach (var file in files)
         {
-            await using var pokemonFileStream = File.OpenRead(file);
-            var mon = await JsonSerializer.DeserializeAsync<PokemonJsonPokemon>(pokemonFileStream, Options);
-            pokemon.Add(Path.GetFileNameWithoutExtension(file), mon!);
+            var instance = await CheckFile<T>(file, true);
+            dictionary.Add(Path.GetFileNameWithoutExtension(file), instance);
         }
 
-        await SaveJson(pokemon, "pokemon.json");
-        Console.WriteLine("Done");
+        await SaveJson(dictionary, $"{directory}.json");
     }
 
     private static async Task SaveJson<T>(T model, string fileName)

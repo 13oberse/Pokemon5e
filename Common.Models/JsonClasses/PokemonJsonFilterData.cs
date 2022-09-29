@@ -10,8 +10,8 @@ public record class PokemonJsonFilterData
     public List<string> Type { get; set; } = DefaultValues.ListStringDefault;
 
     [JsonPropertyName("SR")]
-    public string SpeciesRating { get; set; } = string.Empty;
+    public decimal SpeciesRating { get; set; }
 
     [JsonPropertyName("MIN LVL FD")]
-    public string MinimumFieldLevel { get; set; } = string.Empty;
+    public int MinimumFieldLevel { get; set; }
 }
