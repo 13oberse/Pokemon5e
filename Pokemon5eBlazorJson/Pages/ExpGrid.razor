@@ -1,0 +1,32 @@
+@page "/ExpGrid"
+<h3>Experience Grid</h3>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Level<i class="oi oi-arrow-bottom"></i>&nbsp;SR<i class="oi oi-arrow-right"></i></th>
+        @foreach (var item in @ExperienceGrid["1"].Keys)
+        {
+            <th>@item</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var (key, value) in @ExperienceGrid)
+    {
+        <tr>
+            <th>@key</th>
+            @foreach (var (sr, exp) in value)
+            {
+                <td>@exp</td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code
+{
+    [CascadingParameter(Name = "ExpGrid")]
+    public Dictionary<string, Dictionary<string, int>> ExperienceGrid { get; set; } = null!;
+}

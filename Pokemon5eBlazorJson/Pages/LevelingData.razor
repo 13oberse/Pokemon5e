@@ -1,0 +1,34 @@
+@page "/LevelingData"
+<h3>Leveling Data</h3>
+
+<div class="row">
+    <table class="table table-bordered table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>Level</th>
+                <th>Proficiency</th>
+                <th>STAB</th>
+                <th>ASI</th>
+                <th>EXP</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var (key, value) in LevelingDataList)
+            {
+                <tr>
+                    <td>@key</td>
+                    <td>@value.Proficiency</td>
+                    <td>@value.SameTypeAttackBonus</td>
+                    <td>@value.AbilityScoreIncrease</td>
+                    <td>@value.Experience.ToString("##,###")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [CascadingParameter(Name = "LevelingData")]
+    public Dictionary<string, PokemonJsonLeveling> LevelingDataList { get; set; } = null!;
+}

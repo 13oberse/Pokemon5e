@@ -1,0 +1,66 @@
+@page "/Feats"
+<h3>Feats</h3>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header">Parameters</div>
+            <div class="card-body">
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Name</legend>
+                    <input class="form-control" type="text" @bind="_name" />
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Description</legend>
+                    <input class="form-control" type="text" @bind="_description" />
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-10">
+        <table class="table table-bordered table-striped table-responsive">
+            <caption>Results</caption>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var (key, value) in GetList())
+            {
+                <tr>
+                    <td>@key</td>
+                    <td>@value.Description</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter(Name = "Feats")]
+    public Dictionary<string, PokemonJsonFeat> FeatsList { get; set; } = null!;
+    
+    private string? _name;
+    private string? _description;
+
+    private Dictionary<string, PokemonJsonFeat> GetList()
+    {
+        var query = FeatsList.AsEnumerable();
+        if (!string.IsNullOrWhiteSpace(_name))
+        {
+            query = query.Where(x => x.Key.Contains(_name, StringComparison.CurrentCultureIgnoreCase));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(_description))
+        {
+            query = query.Where(x => x.Value.Description.Contains(_description, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        return query.ToDictionary(x => x.Key, x => x.Value);
+    }
+}

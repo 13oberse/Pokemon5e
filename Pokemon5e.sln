@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Models", "Common.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{FF244023-AD59-4C2E-865D-A9AAE4C8957E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokemon5eBlazorJson", "Pokemon5eBlazorJson\Pokemon5eBlazorJson.csproj", "{6F586C7A-8661-4DA7-8EB1-6B2FFC9F29F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{FF244023-AD59-4C2E-865D-A9AAE4C8957E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF244023-AD59-4C2E-865D-A9AAE4C8957E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF244023-AD59-4C2E-865D-A9AAE4C8957E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F586C7A-8661-4DA7-8EB1-6B2FFC9F29F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F586C7A-8661-4DA7-8EB1-6B2FFC9F29F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F586C7A-8661-4DA7-8EB1-6B2FFC9F29F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F586C7A-8661-4DA7-8EB1-6B2FFC9F29F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

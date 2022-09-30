@@ -1,0 +1,25 @@
+@typeparam T
+
+<tr>
+    <th>@Name</th>
+    <td>
+        @if (Data != null)
+        {
+            <span class="oi oi-check" style="color: green;"></span>
+        }
+        else
+        {
+            <div class="spinner-border" role="status"></div>
+            <span class="sr-only">Loading...</span>
+        }
+    </td>
+</tr>
+
+@code
+{
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter]
+    public Dictionary<string, T>? Data { get; set; }
+}

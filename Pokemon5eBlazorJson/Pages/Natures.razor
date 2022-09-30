@@ -1,0 +1,32 @@
+@page "/Natures"
+<h3>Natures</h3>
+
+<div class="row">
+    <table class="table table-bordered table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Attribute 1</th>
+                <th>Attribute 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var (key, value) in NaturesList)
+            {
+                <tr>
+                    <td>@key</td>
+                    @foreach (var item in value)
+                    {
+                        <td>@item.Key: @item.Value</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [CascadingParameter(Name = "Natures")]
+    public Dictionary<string, Dictionary<string, int>> NaturesList { get; set; } = null!;
+}

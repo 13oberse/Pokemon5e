@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Models;
 
@@ -123,8 +124,125 @@ public static class CommonHelper
         _ => Throw<(PokemonMoveTime MoveTime, bool IsRecharge, bool IsCharge)>($"{nameof(GetMoveTime)} '{moveTime}' did not map")
     };
 
-    public static T Throw<T>(string message)
+    public static float GetTypeEffectiveness(PokemonType attackingType, PokemonType defendingType) => attackingType switch
     {
-        throw new Exception(message);
-    }
+        PokemonType.Normal => defendingType switch
+        {
+            PokemonType.Ghost => PokemonConstants.IMMUNE,
+            PokemonType.Rock or PokemonType.Steel => PokemonConstants.RESIST,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Fire => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Water or PokemonType.Rock or PokemonType.Dragon => PokemonConstants.RESIST,
+            PokemonType.Grass or PokemonType.Ice or PokemonType.Bug or PokemonType.Steel => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Water => defendingType switch
+        {
+            PokemonType.Water or PokemonType.Grass or PokemonType.Dragon => PokemonConstants.RESIST,
+            PokemonType.Fire or PokemonType.Ground or PokemonType.Rock => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Electric => defendingType switch
+        {
+            PokemonType.Ground => PokemonConstants.IMMUNE,
+            PokemonType.Electric or PokemonType.Grass or PokemonType.Dragon => PokemonConstants.RESIST,
+            PokemonType.Water or PokemonType.Flying => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Grass => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Grass or PokemonType.Poison or PokemonType.Flying or PokemonType.Bug or PokemonType.Dragon or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Water or PokemonType.Ground or PokemonType.Rock => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Ice => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Water or PokemonType.Ice or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Grass or PokemonType.Ground or PokemonType.Flying or PokemonType.Dragon => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Fighting => defendingType switch
+        {
+            PokemonType.Ghost => PokemonConstants.IMMUNE,
+            PokemonType.Poison or PokemonType.Flying or PokemonType.Psychic or PokemonType.Bug or PokemonType.Fairy => PokemonConstants.RESIST,
+            PokemonType.Normal or PokemonType.Ice or PokemonType.Rock or PokemonType.Dark or PokemonType.Steel => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Poison => defendingType switch
+        {
+            PokemonType.Steel => PokemonConstants.IMMUNE,
+            PokemonType.Poison or PokemonType.Ground or PokemonType.Rock or PokemonType.Ghost => PokemonConstants.RESIST,
+            PokemonType.Grass or PokemonType.Fairy => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Ground => defendingType switch
+        {
+            PokemonType.Flying => PokemonConstants.IMMUNE,
+            PokemonType.Grass or PokemonType.Bug => PokemonConstants.RESIST,
+            PokemonType.Fire or PokemonType.Electric or PokemonType.Poison or PokemonType.Rock or PokemonType.Steel => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Flying => defendingType switch
+        {
+            PokemonType.Electric or PokemonType.Rock or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Grass or PokemonType.Fighting or PokemonType.Bug => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Psychic => defendingType switch
+        {
+            PokemonType.Dark => PokemonConstants.IMMUNE,
+            PokemonType.Psychic or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Fighting or PokemonType.Poison => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Bug => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Fighting or PokemonType.Poison or PokemonType.Flying or PokemonType.Ghost or PokemonType.Steel or PokemonType.Fairy => PokemonConstants.RESIST,
+            PokemonType.Grass or PokemonType.Psychic or PokemonType.Dark => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Rock => defendingType switch
+        {
+            PokemonType.Fighting or PokemonType.Ground or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Fire or PokemonType.Ice or PokemonType.Flying or PokemonType.Bug => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Ghost => defendingType switch
+        {
+            PokemonType.Normal => PokemonConstants.IMMUNE,
+            PokemonType.Dark => PokemonConstants.RESIST,
+            PokemonType.Psychic or PokemonType.Ghost => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Dragon => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Water or PokemonType.Electric or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Ice or PokemonType.Rock or PokemonType.Fairy => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Dark => defendingType switch
+        {
+            PokemonType.Fighting or PokemonType.Dark or PokemonType.Fairy => PokemonConstants.RESIST,
+            PokemonType.Psychic or PokemonType.Ghost => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Steel => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Water or PokemonType.Electric or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Ice or PokemonType.Rock or PokemonType.Fairy => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        PokemonType.Fairy => defendingType switch
+        {
+            PokemonType.Fire or PokemonType.Poison or PokemonType.Steel => PokemonConstants.RESIST,
+            PokemonType.Fighting or PokemonType.Dragon or PokemonType.Dark => PokemonConstants.SUPER,
+            _ => PokemonConstants.NORMAL
+        },
+        _ => Throw<float>($"invalid {nameof(attackingType)} ({attackingType}) given")
+    };
+
+    [DoesNotReturn]
+    public static T Throw<T>(string message) => throw new Exception(message);
 }
