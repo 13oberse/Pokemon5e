@@ -69,7 +69,7 @@
     "Description": "When this Pokémon eats any type of berry,  is heals for an additional 10% of its maximum HP (rounded up to the nearest whole number)."
   },
   "Chlorophyll": {
-    "Description": "This Pokémon’s speed is doubled in harsh sunlight."
+    "Description": "This Pokémon's speed is doubled in harsh sunlight."
   },
   "Clear Body": {
     "Description": "Other Pokémon's moves or abilities cannot lower this Pokémon stats."
@@ -93,7 +93,7 @@
     "Description": "Moves that directly increase or decrease this Pokémon's stats have the opposite effect. This ability has no effect on moves that would \"swap\" or \"average\" stats with a target like Heart Swap, Guard Split, etc."
   },
   "Corrosion": {
-    "Description": "This Pokémon's moves ignore the poison immunity of creatures granted by their Pokémon type, and can inflict the poisoned status on poison and steel type creatures. If the target’s secondary type gives it vulnerability or resistance to the damage, it follows the secondary type for that effect."
+    "Description": "This Pokémon's moves ignore the poison immunity of creatures granted by their Pokémon type, and can inflict the poisoned status on poison and steel type creatures. If the target's secondary type gives it vulnerability or resistance to the damage, it follows the secondary type for that effect."
   },
   "Cursed Body": {
     "Description": "When hit by a melee attack, this Pokémon may roll 1d4. On a result of 4, the opponent who made the attack cannot use the same move on its next turn."
@@ -180,7 +180,7 @@
     "Description": "Once per long rest, when an ally within 15 feet of this Pokémon is hit by an attack, it may choose to halve the damage dealt."
   },
   "Frisk": {
-    "Description": "Upon entering a battle, a single opponent’s held item is revealed, if it has one."
+    "Description": "Upon entering a battle, a single opponent's held item is revealed, if it has one."
   },
   "Full Metal Body": {
     "Description": "Other Pokémon's moves or abilities cannot lower this Pokémon stats."
@@ -240,7 +240,7 @@
     "Description": "This Pokémon knows Hydro Pump as a fifth move. The move is forgotten if it takes any other form."
   },
   "Hyper Cutter": {
-    "Description": "This Pokémon’s attack or damage bonuses cannot be decreased by an opponent’s moves."
+    "Description": "This Pokémon's attack or damage bonuses cannot be decreased by an opponent's moves."
   },
   "Ice Body": {
     "Description": "While it is snowing or hailing, this Pokémon heals for an amount of HP equal to its proficiency modifier at the end of each of its turns."
@@ -411,7 +411,7 @@
     "Description": "This Pokémon does not suffer the disadvantage effects of the poisoned status. In addition, this Pokémon recovers half of all poison damage it would take, including the damage at each of the end of its turns."
   },
   "Poison Point": {
-    "Description": "When this Pokémon is hit with a melee attack, roll a 1d4. On a result of 4, the attacker takes an amount of poison damage equal to this Pokémon’s proficiency modifier."
+    "Description": "When this Pokémon is hit with a melee attack, roll a 1d4. On a result of 4, the attacker takes an amount of poison damage equal to this Pokémon's proficiency modifier."
   },
   "Poison Touch": {
     "Description": "On melee attacks made by this Pokémon, roll a d10 on a hit. On a result of a 10, the target is poisoned."
@@ -444,7 +444,7 @@
     "Description": "Creatures within line of sight of this Pokémon cannot use bonus actions to activate Moves. Moves that would normally have a Move Time of \"1 bonus action\" instead have a Move Time of \"1 action."
   },
   "Quick Feet": {
-    "Description": "When suffering from a negative status condition, this Pokémon’s speed increases by 15 ft."
+    "Description": "When suffering from a negative status condition, this Pokémon's speed increases by 15 ft."
   },
   "RKS System": {
     "Description": "This Pokémon's type is determined by the memory disc it holds. If not holding a memory disc, this Pokémon's type is normal."
@@ -498,7 +498,7 @@
     "Description": "Beginning at level 5, this Pokémon may change to School Form as a free action when it begins its turn above 25% of its maximum health. In School Form, the Pokémon adds 5 to its AC and Strength, Dexterity, and Constitution ability scores (Additional CON does not alter this Pokemon's HP in this form). The Pokémon reverts back to Solo Form when it falls below 25% of maximum health, and must complete a short rest before activating this ability again."
   },
   "Scrappy": {
-    "Description": "This Pokémon's Normal and Fighting type moves ignore immunities granted by a Pokémon's type. If a target’s secondary type gives it vulnerability or resistance to the attack, it follows the secondary type for that effect."
+    "Description": "This Pokémon's Normal and Fighting type moves ignore immunities granted by a Pokémon's type. If a target's secondary type gives it vulnerability or resistance to the attack, it follows the secondary type for that effect."
   },
   "Serene Grace": {
     "Description": "The Move DC to pass a saving throw against one of this Pokémon's moves is increased by 1."
@@ -600,7 +600,7 @@
     "Description": "When taking damage equal to half or more of your current HP, roll a d4. On a result of 3 of 4, halve the damage dealt."
   },
   "Suction Cups": {
-    "Description": "This Pokémon cannot be forced out of battle by an opponent’s moves."
+    "Description": "This Pokémon cannot be forced out of battle by an opponent's moves."
   },
   "Super Luck": {
     "Description": "This Pokémon increases its critical hit range by 1 (20 to 19+, etc.)"
@@ -636,13 +636,13 @@
     "Description": "This Pokémon cannot be damaged by its allies' attacks."
   },
   "Teravolt": {
-    "Description": "This Pokémon’s moves completely ignore any ability that would hinder or prevent their effect on the target or the user's ability to hit the target."
+    "Description": "This Pokémon's moves completely ignore any ability that would hinder or prevent their effect on the target or the user's ability to hit the target."
   },
   "Thick Fat": {
     "Description": "This Pokemon takes half the damage it otherwise would from Ice and Fire damage."
   },
   "Tinted Lens": {
-    "Description": "This Pokémon’s moves ignore resistances."
+    "Description": "This Pokémon's moves ignore resistances."
   },
   "Torrent": {
     "Description": "This Pokémon doubles its STAB bonus when it has 25% or less of its maximum health."
@@ -666,7 +666,7 @@
     "Description": "This Pokémon cannot use the same move in back to back rounds."
   },
   "Turboblaze": {
-    "Description": "This Pokémon’s moves completely ignore any ability that would hinder or prevent their effect on the target or the user's ability to hit the target."
+    "Description": "This Pokémon's moves completely ignore any ability that would hinder or prevent their effect on the target or the user's ability to hit the target."
   },
   "Unaware": {
     "Description": "When this Pokémon attacks an opponent, it ignores any stat changes the opponent has been affected with after the start of battle."

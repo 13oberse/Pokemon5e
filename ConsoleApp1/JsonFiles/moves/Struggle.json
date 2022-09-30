@@ -28,7 +28,7 @@
     "DEX"
   ],
   "Move Time": "1 action",
-  "PP": "Unlimited",
+  "PP": "-1",
   "Range": "Melee/60ft",
   "Type": "Typeless",
   "atk": true
