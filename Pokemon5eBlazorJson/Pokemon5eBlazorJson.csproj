@@ -20,4 +20,10 @@
       <ProjectReference Include="..\Common.Models\Common.Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="nginx.conf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
