@@ -11,3 +11,4 @@ FROM nginx:alpine AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=publish /app/publish/wwwroot .
 COPY --from=build /app/build/nginx.conf /etc/nginx/nginx.conf
+CMD ["nginx", "-g", "daemon off;"]
