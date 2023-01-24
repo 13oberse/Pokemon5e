@@ -1,5 +1,0 @@
-podman build -f .\Pokemon5eBlazorJson\Dockerfile -t pokemon5ejson .
-podman run -d --name pokemon5eJson --restart unless-stopped --read-only -p 8080:80 --network podman --mount type=volume,source=nginxCache,target=/var/cache localhost/pokemon5ejson
-
-podman build -t basenginx .
-podman run --name basenginx --restart unless-stopped --read-only -p 8888:80 --network podman --mount type=volume,source=nginxCache,target=/var/cache localhost/basenginx

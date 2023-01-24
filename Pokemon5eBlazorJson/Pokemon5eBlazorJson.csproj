@@ -3,8 +3,6 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,12 +16,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common.Models\Common.Models.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="nginx.conf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
     </ItemGroup>
 
 </Project>
