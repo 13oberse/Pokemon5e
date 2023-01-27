@@ -5,35 +5,35 @@ namespace Common.Models;
 
 public record class PokemonMoveData
 {
-    public Dictionary<string, PokemonJsonMoveDamage>? Damage { get; set; }
+    public Dictionary<string, PokemonJsonMoveDamage>? Damage { get; init; }
 
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; init; } = string.Empty;
 
-    public PokemonMoveDuration Duration { get; set; }
+    public PokemonMoveDuration Duration { get; init; }
 
-    public List<PokemonAbilityScore>? MovePower { get; set; }
+    public List<PokemonAbilityScore>? MovePower { get; init; }
 
-    public PokemonMoveTime MoveTime { get; set; }
+    public PokemonMoveTime MoveTime { get; init; }
 
-    public int PowerPoints { get; set; }
+    public int PowerPoints { get; init; }
 
-    public PokemonTarget Target { get; set; }
+    public PokemonTarget Target { get; init; }
 
-    public int Range { get; set; }
+    public int Range { get; init; }
 
-    public string Scaling { get; set; } = string.Empty;
+    public string Scaling { get; init; } = string.Empty;
 
-    public PokemonType Type { get; set; }
+    public PokemonType Type { get; init; }
 
-    public bool IsAttack { get; set; }
+    public bool IsAttack { get; init; }
 
-    public bool IsConcentration { get; set; }
+    public bool IsConcentration { get; init; }
 
-    public PokemonAbilityScore? Save { get; set; }
+    public PokemonAbilityScore? Save { get; init; }
 
-    public PokemonMoveShape? MoveShape { get; set; }
+    public PokemonMoveShape? MoveShape { get; init; }
 
-    public bool IsRecharge { get; set; }
+    public bool IsRecharge { get; init; }
 
-    public bool IsCharge { get; set; }
+    public bool IsCharge { get; init; }
 }

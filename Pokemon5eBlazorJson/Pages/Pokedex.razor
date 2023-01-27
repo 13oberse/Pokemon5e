@@ -1,0 +1,238 @@
+@page "/Pokedex"
+<h3>Pokedex</h3>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header">Parameters</div>
+            <div class="card-body">
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Name</legend>
+                    <input class="form-control" type="text" @bind="_name"/>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Type</legend>
+                    <select class="form-control" @bind="_type">
+                        <option value="">- Select -</option>
+                        @foreach (var item in DefaultValues.ListPokemonTypeAll)
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Final Form</legend>
+                    <select class="form-control" @onchange="e => OnFinalFormChange(e.Value)">
+                        <option value="">- Select -</option>
+                        <option value="@bool.FalseString">false</option>
+                        <option value="@bool.TrueString">true</option>
+                    </select>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Learns Move</legend>
+                    <select class="form-control" @bind="_learnsMove">
+                        <option value="">- Select -</option>
+                        @foreach (var (key, _) in Moves)
+                        {
+                            <option value="@key">@key</option>
+                        }
+                    </select>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <table class="table table-bordered table-striped table-responsive">
+            <caption>Results</caption>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>SR</th>
+                <th>Min Field Lvl</th>
+                <th>HP (Hit Dice)</th>
+                <th>Armor Class</th>
+                <th>Size</th>
+                <th>Type(s)</th>
+                <th>Attributes</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var (key, value) in GetList())
+            {
+                <tr style="cursor: pointer;" @onclick="() => value.ShowHide = !value.ShowHide">
+                    <td>@key</td>
+                    <td>@value.SpeciesRating</td>
+                    <td>@value.MinimumFieldLevel</td>
+                    <td>@value.HP (@value.HitDice)</td>
+                    <td>@value.ArmorClass</td>
+                    <td>@value.Size</td>
+                    <td>@value.Type1 / @value.Type2</td>
+                    <td>@string.Join(", ", value.Attributes.Select(x => $"{x.Key}:{x.Value}"))</td>
+                </tr>
+                <tr style="display: @(value.ShowHide ? "" : "none");">
+                    <td colspan="100">
+                        <table class="table table-bordered table-striped table-sm mb-0">
+                            <thead>
+                            <tr>
+                                <th>Abilities</th>
+                                <th>Hidden Ability</th>
+                                <th>Senses</th>
+                                <th>Skills</th>
+                                <th>Saving Throws</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>@string.Join(",", value.Abilities)</td>
+                                <td>@value.HiddenAbility</td>
+                                <td>
+                                    @if (value.Senses != null)
+                                    {
+                                        <span>@string.Join(", ", value.Senses)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (value.Skills != null)
+                                    {
+                                        <span>@string.Join(", ", value.Skills)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (value.SavingThrows != null)
+                                    {
+                                        <span>@string.Join(", ", value.SavingThrows)</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">
+                                    <table class="table table-bordered table-striped table-sm mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Speed</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Walking</td>
+                                            <td>@value.WalkSpeed</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Swiming</td>
+                                            <td>@value.SwimSpeed</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Climbing</td>
+                                            <td>@value.ClimbSpeed</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Flying</td>
+                                            <td>@value.FlySpeed</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td colspan="100">
+                                    <table class="table table-bordered table-striped table-sm mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Source</th>
+                                            <th>Move</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Start</td>
+                                            <td>@string.Join(", ", value.Moves.StartingMoves)</td>
+                                        </tr>
+                                        @if (value.Moves.LearnByLevelUp != null)
+                                        {
+                                            foreach (var (levelKey, levelValue) in value.Moves.LearnByLevelUp)
+                                            {
+                                                <tr>
+                                                    <td>Level @levelKey</td>
+                                                    <td>@string.Join(", ", levelValue)</td>
+                                                </tr>
+                                            }
+                                        }
+                                        @if (value.Moves.LearnByTM != null)
+                                        {
+                                            <tr>
+                                                <td>TM</td>
+                                                <td>@string.Join(", ", value.Moves.LearnByTM.Select(x => $"{x}:{MoveMachines[x.ToString()]}"))</td>
+                                            </tr>
+                                        }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter(Name = "Pokemon")]
+    public Dictionary<string, PokemonPokemonData> PokemonList { get; set; } = null!;
+
+    [CascadingParameter(Name = "MoveMachines")]
+    public Dictionary<string, string> MoveMachines { get; set; } = null!;
+
+    [CascadingParameter(Name = "Moves")]
+    public Dictionary<string, PokemonMoveData> Moves { get; set; } = null!;
+
+    private string? _name;
+    private PokemonType? _type;
+    private bool? _finalForm;
+    private string? _learnsMove;
+
+    private Dictionary<string, PokemonPokemonData> GetList()
+    {
+        var query = PokemonList.AsEnumerable();
+        if (!string.IsNullOrWhiteSpace(_name))
+        {
+            query = query.Where(x => x.Key.Contains(_name, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        if (_type.HasValue)
+        {
+            query = query.Where(x => x.Value.Type1 == _type.Value || (x.Value.Type2.HasValue && x.Value.Type2.Value == _type.Value));
+        }
+
+        if (_finalForm.HasValue)
+        {
+            query = query.Where(x => string.IsNullOrWhiteSpace(x.Value.Evolve) == _finalForm.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(_learnsMove))
+        {
+            var tm = MoveMachines.Where(x => string.Equals(x.Value, _learnsMove)).Select(x => int.Parse(x.Key)).FirstOrDefault();
+            query = query.Where(x => x.Value.Moves.StartingMoves.Contains(_learnsMove)
+                                     || x.Value.Moves.LearnByLevelUp?.SelectMany(l => l.Value).Contains(_learnsMove) == true
+                                     || x.Value.Moves.LearnByTM?.Contains(tm) == true);
+        }
+
+        return query.Take(50).ToDictionary(x => x.Key, x => x.Value);
+    }
+
+    private void OnFinalFormChange(object? args)
+    {
+        var valAsString = args?.ToString();
+        if (string.IsNullOrWhiteSpace(valAsString) || !bool.TryParse(valAsString, out var valAsBool))
+        {
+            _finalForm = null;
+        }
+        else
+        {
+            _finalForm = valAsBool;
+        }
+    }
+}

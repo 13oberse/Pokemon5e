@@ -1,49 +1,54 @@
 using Common.Models.JsonClasses;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Common.Models;
 
 public record class PokemonPokemonData
 {
-    public int ArmorClass { get; set; }
+    public int ArmorClass { get; init; }
 
-    public List<string> Abilities { get; set; } = DefaultValues.ListStringDefault;
+    public List<string> Abilities { get; init; } = DefaultValues.ListStringDefault;
 
-    public int HP { get; set; }
+    public int HP { get; init; }
 
-    public string? HiddenAbility { get; set; }
+    public string? HiddenAbility { get; init; }
 
-    public int HitDice { get; set; }
+    public int HitDice { get; init; }
 
-    public int MinimumFieldLevel { get; set; }
+    public int MinimumFieldLevel { get; init; }
 
-    public PokemonJsonPokemonMoves Moves { get; set; } = PokemonJsonPokemonMoves.Default;
+    public PokemonJsonPokemonMoves Moves { get; init; } = PokemonJsonPokemonMoves.Default;
 
-    public double SpeciesRating { get; set; }
+    public double SpeciesRating { get; init; }
 
-    public List<string>? Skills { get; set; }
+    public List<string>? Skills { get; init; }
 
-    public PokemonType Type1 { get; set; }
+    public PokemonType Type1 { get; init; }
 
-    public PokemonType? Type2 { get; set; }
+    public PokemonType? Type2 { get; init; }
 
-    public int? WalkSpeed { get; set; }
+    public int? WalkSpeed { get; init; }
 
-    public int? SwimSpeed { get; set; }
+    public int? SwimSpeed { get; init; }
 
-    public int? FlySpeed { get; set; }
+    public int? FlySpeed { get; init; }
 
-    public int? ClimbSpeed { get; set; }
+    public int? ClimbSpeed { get; init; }
 
-    public Dictionary<string, int> Attributes { get; set; } = DefaultValues.DictionaryIntDefault;
+    public Dictionary<string, int> Attributes { get; init; } = DefaultValues.DictionaryIntDefault;
 
-    public int Index { get; set; }
+    public int Index { get; init; }
 
-    public List<string>? Senses { get; set; }
+    public List<string>? Senses { get; init; }
 
-    public string? Evolve { get; set; }
+    public string? Evolve { get; init; }
 
-    public List<string>? SavingThrows { get; set; }
+    public List<string>? SavingThrows { get; init; }
 
-    public string Size { get; set; } = string.Empty;
+    public string Size { get; init; } = string.Empty;
+
+    //I can't figure out how to avoid putting it here
+    [JsonIgnore]
+    public bool ShowHide { get; set; }
 }
