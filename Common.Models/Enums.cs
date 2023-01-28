@@ -2,7 +2,7 @@ using System;
 
 namespace Common.Models;
 
-public enum PokemonType
+public enum PokemonType : byte
 {
     Normal,
     Fire,
@@ -26,7 +26,7 @@ public enum PokemonType
     Typeless
 }
 
-public enum PokemonMoveTime
+public enum PokemonMoveTime : byte
 {
     Action,
     BonusAction,
@@ -34,7 +34,7 @@ public enum PokemonMoveTime
 }
 
 [Flags]
-public enum PokemonMoveDuration
+public enum PokemonMoveDuration : byte
 {
     Instantaneous = 0,
     Round1 = 1,
@@ -48,39 +48,41 @@ public enum PokemonMoveDuration
 }
 
 [Flags]
-public enum PokemonTarget
+public enum PokemonTarget : byte
 {
     Self = 0,
     Melee = 1,
     Ranged = 2
 }
 
-public enum PokemonMoveShape
+public enum PokemonMoveShape : byte
 {
     Cone,
     Line,
     Radius
 }
 
-public enum PokemonGender
+public enum PokemonGender : byte
 {
     Genderless = 0,
     Male = 1,
     Female = 2
 }
 
-public enum PokemonSize
+public enum PokemonSize : byte
 {
     Tiny,
     Small,
     Medium,
     Large,
-    Huge
+    Huge,
+    Gargantuan,
+    Varies
 }
 
 [Flags]
 #pragma warning disable RCS1135
-public enum PokemonAbilityScore
+public enum PokemonAbilityScore : byte
 #pragma warning restore RCS1135
 {
     Strength = 1,

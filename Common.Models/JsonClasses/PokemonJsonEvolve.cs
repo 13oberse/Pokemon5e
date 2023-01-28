@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Common.Models.DataClasses;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace Common.Models.JsonClasses;
 
-public record class PokemonJsonEvolve
+public record PokemonJsonEvolve : IPokemonJsonType<EvolveData>
 {
     public List<string> Into { get; set; } = DefaultValues.ListStringDefault;
 
@@ -16,4 +17,14 @@ public record class PokemonJsonEvolve
     public int Points { get; set; }
 
     public int Level { get; set; }
+
+    public EvolveData ToOutput(string input) => new()
+    {
+        Name = input,
+        Into = Into,
+        Level = Level,
+        CurrentStage = CurrentStage,
+        TotalStages = TotalStages,
+        Points = Points
+    };
 }

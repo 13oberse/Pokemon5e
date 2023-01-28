@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Common.Models.JsonClasses;
 
-public record class PokemonJsonFilterData : IPokemonJsonType<PokemonFilterData>
+public record PokemonJsonFilterData //: IPokemonJsonType<PokemonFilterData>
 {
     public int Index { get; set; }
 
@@ -16,7 +16,7 @@ public record class PokemonJsonFilterData : IPokemonJsonType<PokemonFilterData>
     [JsonPropertyName("MIN LVL FD")]
     public int MinimumFieldLevel { get; set; }
 
-    public PokemonFilterData ToOutput() => new PokemonFilterData
+    public PokemonFilterData ToOutput() => new()
     {
         Index = Index,
         SpeciesRating = SpeciesRating,

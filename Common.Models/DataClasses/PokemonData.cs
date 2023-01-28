@@ -5,6 +5,8 @@ namespace Common.Models.DataClasses;
 
 public record PokemonData
 {
+    public string Name { get; init; } = string.Empty;
+
     public int Index { get; init; }
 
     public int HP { get; init; }
@@ -46,6 +48,8 @@ public record PokemonData
     public PokemonAbilityScore? SavingThrows { get; init; }
 
     public PokemonSize Size { get; init; }
+
+    public PokemonGender? Gender { get; init; }
 
     public PokedexExtraData PokedexExtraData { get; init; } = PokedexExtraData.Default;
 }

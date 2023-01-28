@@ -2,5 +2,5 @@ namespace Common.Models;
 
 public interface IPokemonJsonType<out TResult>
 {
-    TResult ToOutput();
+    TResult ToOutput(string input);
 }

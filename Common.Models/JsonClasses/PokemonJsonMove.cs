@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Common.Models.DataClasses;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Common.Models.JsonClasses;
 
-public record class PokemonJsonMove : IPokemonJsonType<PokemonMoveData>
+public record class PokemonJsonMove : IPokemonJsonType<MoveData>
 {
     public Dictionary<string, PokemonJsonMoveDamage>? Damage { get; set; }
 
@@ -31,17 +33,17 @@ public record class PokemonJsonMove : IPokemonJsonType<PokemonMoveData>
 
     public string? Save { get; set; }
 
-    public PokemonMoveData ToOutput()
+    public MoveData ToOutput(string input)
     {
         var (duration, isConcentration, isCharge) = Duration.GetMoveDuration();
         var (target, range, moveShape) = Range.GetMoveRange();
         var (moveTime, isRecharge, isCharge2) = MoveTime.GetMoveTime();
-        return new PokemonMoveData
+        return new MoveData
         {
-            Damage = Damage,
+            Name = input,
             Description = Description,
             Duration = duration,
-            MovePower = MovePower is not { Count: > 0} ? null : MovePower.ConvertAll(x => x.GetAbilityScore()),
+            MovePower = MovePower is not { Count: > 0 } ? null : MovePower.ConvertAll(x => x.GetAbilityScore()),
             Save = Save?.GetAbilityScore(),
             Scaling = Scaling,
             Type = Type.GetPokemonType(),
@@ -53,7 +55,11 @@ public record class PokemonJsonMove : IPokemonJsonType<PokemonMoveData>
             Range = range,
             MoveShape = moveShape,
             IsRecharge = isRecharge,
-            IsCharge = isCharge || isCharge2
+            IsCharge = isCharge || isCharge2,
+            Damage = Damage?
+                .Select(x => x.Value.ToOutput(x.Key))
+                .OrderBy(x => x.Level)
+                .ToList()
         };
     }
 }

@@ -6,7 +6,7 @@ public record MoveData
 {
     public string Name { get; init; } = string.Empty;
 
-    public List<SerializableKeyValuePair<int, MoveDamageData>>? Damage { get; init; }
+    public List<MoveDamageData>? Damage { get; init; }
 
     public string Description { get; init; } = string.Empty;
 
