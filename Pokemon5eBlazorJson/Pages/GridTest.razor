@@ -1,0 +1,11 @@
+@page "/GridTest"
+<h3>GridTest</h3>
+
+<IgbDataGrid DataSource="@AbilitiesList" IsPagerVisible="true" PageSize="20">
+</IgbDataGrid>
+
+@code
+{
+    [CascadingParameter(Name = "Abilities")]
+    public Dictionary<string, PokemonJsonAbility> AbilitiesList { get; set; } = null!;
+}

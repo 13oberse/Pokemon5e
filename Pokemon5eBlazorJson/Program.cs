@@ -24,6 +24,7 @@ public static class Program
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
         builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        builder.Services.AddIgniteUIBlazor();
 
         var host = builder.Build();
         await host.RunAsync();
