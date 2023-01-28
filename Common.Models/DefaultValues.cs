@@ -1,4 +1,5 @@
-﻿using Common.Models.JsonClasses;
+﻿using Common.Models.DataClasses;
+using Common.Models.JsonClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ public static class DefaultValues
 
     public static readonly List<PokemonAbilityScore> ListPokemonAbilityScoresDefault = new(0);
 
-    public static readonly List<PokemonAbilityScore> ListPokemonAbilityScoresAll = Enum.GetValues<PokemonAbilityScore>().Where(x => (x & PokemonAbilityScore.Any) != PokemonAbilityScore.Any).ToList();
+    public static readonly List<PokemonAbilityScore> ListPokemonAbilityScoresAll =
+        Enum.GetValues<PokemonAbilityScore>().Where(x => (x & PokemonAbilityScore.Any) != PokemonAbilityScore.Any).ToList();
 
     public static readonly List<PokemonType> ListPokemonTypeDefault = new(0);
 
@@ -22,4 +24,8 @@ public static class DefaultValues
     public static readonly Dictionary<string, List<string>> DictionaryListStringDefault = new(0);
 
     public static readonly Dictionary<string, PokemonJsonMoveDamage> DictionaryMoveDamageDefault = new(0);
+
+    public static readonly List<SerializableKeyValuePair<double, int>> DoubleIntPairListDefault = new(0);
+
+    public static readonly List<SerializableKeyValuePair<PokemonAbilityScore, int>> AbilityScoreIntListDefault = new(0);
 }

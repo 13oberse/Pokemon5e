@@ -69,6 +69,15 @@ public enum PokemonGender
     Female = 2
 }
 
+public enum PokemonSize
+{
+    Tiny,
+    Small,
+    Medium,
+    Large,
+    Huge
+}
+
 [Flags]
 #pragma warning disable RCS1135
 public enum PokemonAbilityScore
