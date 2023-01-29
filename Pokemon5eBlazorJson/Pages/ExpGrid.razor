@@ -5,20 +5,20 @@
     <thead>
     <tr>
         <th>Level<i class="oi oi-arrow-bottom"></i>&nbsp;SR<i class="oi oi-arrow-right"></i></th>
-        @foreach (var item in @ExperienceGrid["1"].Keys)
+        @foreach (var item in ExperienceGrid[0].SRExperience)
         {
-            <th>@item</th>
+            <th>@item.Key</th>
         }
     </tr>
     </thead>
     <tbody>
-    @foreach (var (key, value) in @ExperienceGrid)
+    @foreach (var item in ExperienceGrid)
     {
         <tr>
-            <th>@key</th>
-            @foreach (var (sr, exp) in value)
+            <th>@item.Level</th>
+            @foreach (var subItem in item.SRExperience)
             {
-                <td>@exp</td>
+                <td>@subItem.Value</td>
             }
         </tr>
     }
@@ -28,5 +28,5 @@
 @code
 {
     [CascadingParameter(Name = "ExpGrid")]
-    public Dictionary<string, Dictionary<string, int>> ExperienceGrid { get; set; } = null!;
+    public List<ExpGridData> ExperienceGrid { get; set; } = null!;
 }

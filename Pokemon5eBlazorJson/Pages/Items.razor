@@ -10,11 +10,11 @@
             <div class="card-body">
                 <fieldset class="form-group">
                     <legend class="col-form-label">Name</legend>
-                    <input class="form-control" type="text" @bind="_name" />
+                    <input class="form-control" type="text" @bind="_name"/>
                 </fieldset>
                 <fieldset class="form-group">
                     <legend class="col-form-label">Effect</legend>
-                    <input class="form-control" type="text" @bind="_effect" />
+                    <input class="form-control" type="text" @bind="_effect"/>
                 </fieldset>
             </div>
         </div>
@@ -23,19 +23,19 @@
         <table class="table table-bordered table-striped table-responsive">
             <caption>Results</caption>
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var (key, value) in GetList())
-                {
-                    <tr>
-                        <td>@key</td>
-                        <td>@value.Effect</td>
-                    </tr>
-                }
+            @foreach (var item in GetList())
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Effect</td>
+                </tr>
+            }
             </tbody>
         </table>
     </div>
@@ -44,24 +44,24 @@
 @code
 {
     [CascadingParameter(Name = "Items")]
-    public Dictionary<string, PokemonJsonItem> ItemsList { get; set; } = null!;
-    
+    public List<ItemData> ItemsList { get; set; } = null!;
+
     private string? _name;
     private string? _effect;
-    
-    private Dictionary<string, PokemonJsonItem> GetList()
+
+    private List<ItemData> GetList()
     {
         var query = ItemsList.AsEnumerable();
         if (!string.IsNullOrWhiteSpace(_name))
         {
-            query = query.Where(x => x.Key.Contains(_name, StringComparison.CurrentCultureIgnoreCase));
-        }
-        
-        if (!string.IsNullOrWhiteSpace(_effect))
-        {
-            query = query.Where(x => x.Value.Effect.Contains(_effect, StringComparison.CurrentCultureIgnoreCase));
+            query = query.Where(x => x.Name.Contains(_name, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        return query.ToDictionary(x => x.Key, x => x.Value);
+        if (!string.IsNullOrWhiteSpace(_effect))
+        {
+            query = query.Where(x => x.Effect.Contains(_effect, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        return query.ToList();
     }
 }

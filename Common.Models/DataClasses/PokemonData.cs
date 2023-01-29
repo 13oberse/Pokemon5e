@@ -54,6 +54,8 @@ public record PokemonData
 
     public PokedexExtraData PokedexExtraData { get; init; } = PokedexExtraData.Default;
 
+    public bool ShowHide { get; set; }
+
     public PokemonData MakeNewWithExtra(Dictionary<string, PokemonJsonPokedexExtra> pokedexExtras, Dictionary<string, PokemonGender> genders) => new()
     {
         Abilities = Abilities,

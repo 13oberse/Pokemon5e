@@ -8,16 +8,16 @@
             <div class="card-body">
                 <fieldset class="form-group">
                     <legend class="col-form-label">Name</legend>
-                    <input class="form-control" type="text" @bind="_name" />
+                    <input class="form-control" type="text" @bind="_name"/>
                 </fieldset>
                 <fieldset class="form-group">
                     <legend class="col-form-label">Description</legend>
-                    <input class="form-control" type="text" @bind="_description" />
+                    <input class="form-control" type="text" @bind="_description"/>
                 </fieldset>
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-10">
         <table class="table table-bordered table-striped table-responsive">
             <caption>Results</caption>
@@ -28,11 +28,11 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var (key, value) in GetList())
+            @foreach (var item in GetList())
             {
                 <tr>
-                    <td>@key</td>
-                    <td>@value.Description</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
                 </tr>
             }
             </tbody>
@@ -43,24 +43,24 @@
 @code
 {
     [CascadingParameter(Name = "Feats")]
-    public Dictionary<string, PokemonJsonFeat> FeatsList { get; set; } = null!;
-    
+    public List<FeatData> FeatsList { get; set; } = null!;
+
     private string? _name;
     private string? _description;
 
-    private Dictionary<string, PokemonJsonFeat> GetList()
+    private List<FeatData> GetList()
     {
         var query = FeatsList.AsEnumerable();
         if (!string.IsNullOrWhiteSpace(_name))
         {
-            query = query.Where(x => x.Key.Contains(_name, StringComparison.CurrentCultureIgnoreCase));
-        }
-        
-        if (!string.IsNullOrWhiteSpace(_description))
-        {
-            query = query.Where(x => x.Value.Description.Contains(_description, StringComparison.CurrentCultureIgnoreCase));
+            query = query.Where(x => x.Name.Contains(_name, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        return query.ToDictionary(x => x.Key, x => x.Value);
+        if (!string.IsNullOrWhiteSpace(_description))
+        {
+            query = query.Where(x => x.Description.Contains(_description, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        return query.ToList();
     }
 }

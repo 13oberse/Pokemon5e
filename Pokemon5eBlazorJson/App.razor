@@ -8,23 +8,17 @@
                 <CascadingValue Value="EvolveData!" Name="@nameof(EvolveData)">
                     <CascadingValue Value="ExpGrid!" Name="@nameof(ExpGrid)">
                         <CascadingValue Value="Feats!" Name="@nameof(Feats)">
-                            <CascadingValue Value="FilterData!" Name="@nameof(FilterData)">
-                                <CascadingValue Value="Genders!" Name="@nameof(Genders)">
-                                    <CascadingValue Value="Habitats!" Name="@nameof(Habitats)">
-                                        <CascadingValue Value="Items!" Name="@nameof(Items)">
-                                            <CascadingValue Value="LevelingData!" Name="@nameof(LevelingData)">
-                                                <CascadingValue Value="MoveMachines!" Name="@nameof(MoveMachines)">
-                                                    <CascadingValue Value="Moves!" Name="@nameof(Moves)">
-                                                        <CascadingValue Value="Natures!" Name="@nameof(Natures)">
-                                                            <CascadingValue Value="PokedexExtras!" Name="@nameof(PokedexExtras)">
-                                                                <CascadingValue Value="Pokemon!" Name="@nameof(Pokemon)">
-                                                                    <CascadingValue Value="TrainerClasses!" Name="@nameof(TrainerClasses)">
-                                                                        <CascadingValue Value="Variants!" Name="@nameof(Variants)">
-                                                                            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
-                                                                            <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
-                                                                        </CascadingValue>
-                                                                    </CascadingValue>
-                                                                </CascadingValue>
+                            <CascadingValue Value="Habitats!" Name="@nameof(Habitats)">
+                                <CascadingValue Value="Items!" Name="@nameof(Items)">
+                                    <CascadingValue Value="LevelingData!" Name="@nameof(LevelingData)">
+                                        <CascadingValue Value="MoveMachines!" Name="@nameof(MoveMachines)">
+                                            <CascadingValue Value="Moves!" Name="@nameof(Moves)">
+                                                <CascadingValue Value="Natures!" Name="@nameof(Natures)">
+                                                    <CascadingValue Value="Pokemon!" Name="@nameof(Pokemon)">
+                                                        <CascadingValue Value="TrainerClasses!" Name="@nameof(TrainerClasses)">
+                                                            <CascadingValue Value="Variants!" Name="@nameof(Variants)">
+                                                                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+                                                                <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
                                                             </CascadingValue>
                                                         </CascadingValue>
                                                     </CascadingValue>
@@ -56,15 +50,12 @@ else
             <LoadingTableRow Name="Evolve Data" Data="EvolveData"></LoadingTableRow>
             <LoadingTableRow Name="Exp Grid" Data="ExpGrid"></LoadingTableRow>
             <LoadingTableRow Name="Feats" Data="Feats"></LoadingTableRow>
-            <LoadingTableRow Name="Filter Data" Data="FilterData"></LoadingTableRow>
-            <LoadingTableRow Name="Genders" Data="Genders"></LoadingTableRow>
             <LoadingTableRow Name="Habitats" Data="Habitats"></LoadingTableRow>
             <LoadingTableRow Name="Items" Data="Items"></LoadingTableRow>
             <LoadingTableRow Name="Leveling Data" Data="LevelingData"></LoadingTableRow>
             <LoadingTableRow Name="TMs" Data="MoveMachines"></LoadingTableRow>
             <LoadingTableRow Name="Moves" Data="Moves"></LoadingTableRow>
             <LoadingTableRow Name="Natures" Data="Natures"></LoadingTableRow>
-            <LoadingTableRow Name="Pokedex Extras" Data="PokedexExtras"></LoadingTableRow>
             <LoadingTableRow Name="Pokemon" Data="Pokemon"></LoadingTableRow>
             <LoadingTableRow Name="Trainer Classes" Data="TrainerClasses"></LoadingTableRow>
             <LoadingTableRow Name="Variants" Data="Variants"></LoadingTableRow>
@@ -75,45 +66,39 @@ else
 
 @code
 {
-    public Dictionary<string, PokemonJsonAbility>? Abilities;
-    public Dictionary<string, PokemonJsonEvolve>? EvolveData;
-    public Dictionary<string, Dictionary<string, int>>? ExpGrid;
-    public Dictionary<string, PokemonJsonFeat>? Feats;
-    public Dictionary<string, PokemonFilterData>? FilterData;
-    public Dictionary<string, PokemonGender>? Genders;
-    public Dictionary<string, List<string>>? Habitats;
-    public Dictionary<string, PokemonJsonItem>? Items;
-    public Dictionary<string, PokemonJsonLeveling>? LevelingData;
-    public Dictionary<string, string>? MoveMachines;
-    public Dictionary<string, PokemonMoveData>? Moves;
-    public Dictionary<string, Dictionary<string, int>>? Natures;
-    public Dictionary<string, PokemonJsonPokedexExtra>? PokedexExtras;
-    public Dictionary<string, PokemonPokemonData>? Pokemon;
-    public Dictionary<string, List<string>>? TrainerClasses;
-    public Dictionary<string, List<string>>? Variants;
+    public List<AbilityData>? Abilities;
+    public List<EvolveData>? EvolveData;
+    public List<ExpGridData>? ExpGrid;
+    public List<FeatData>? Feats;
+    public List<HabitatData>? Habitats;
+    public List<ItemData>? Items;
+    public List<LevelingData>? LevelingData;
+    public List<TMData>? MoveMachines;
+    public List<MoveData>? Moves;
+    public List<NatureData>? Natures;
+    public List<PokemonData>? Pokemon;
+    public List<TrainerClassData>? TrainerClasses;
+    public List<VariantData>? Variants;
 
-    private bool IsComplete() => Abilities != null && EvolveData != null && ExpGrid != null && Feats != null && FilterData != null
-                                 && Genders != null && Habitats != null && Items != null && LevelingData != null && MoveMachines != null
-                                 && Moves != null && Natures != null && PokedexExtras != null && Pokemon != null && TrainerClasses != null && Variants != null;
+    private bool IsComplete() => Abilities != null && EvolveData != null && ExpGrid != null && Feats != null
+                                 && Habitats != null && Items != null && LevelingData != null && MoveMachines != null && Moves != null
+                                 && Natures != null && Pokemon != null && TrainerClasses != null && Variants != null;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Abilities = await Client.GetFromJsonAsync<Dictionary<string, PokemonJsonAbility>>("DataFiles/abilities.json");
-        EvolveData = await Client.GetFromJsonAsync<Dictionary<string, PokemonJsonEvolve>>("DataFiles/evolve.json");
-        ExpGrid = await Client.GetFromJsonAsync<Dictionary<string, Dictionary<string, int>>>("DataFiles/exp_grid.json");
-        Feats = await Client.GetFromJsonAsync<Dictionary<string, PokemonJsonFeat>>("DataFiles/feats.json");
-        FilterData = await Client.GetFromJsonAsync<Dictionary<string, PokemonFilterData>>("DataFiles/filter_data.json");
-        Genders = await Client.GetFromJsonAsync<Dictionary<string, PokemonGender>>("DataFiles/gender.json");
-        Habitats = await Client.GetFromJsonAsync<Dictionary<string, List<string>>>("DataFiles/habitat.json");
-        Items = await Client.GetFromJsonAsync<Dictionary<string, PokemonJsonItem>>("DataFiles/items.json");
-        LevelingData = await Client.GetFromJsonAsync<Dictionary<string, PokemonJsonLeveling>>("DataFiles/leveling.json");
-        MoveMachines = await Client.GetFromJsonAsync<Dictionary<string, string>>("DataFiles/move_machines.json");
-        Moves = await Client.GetFromJsonAsync<Dictionary<string, PokemonMoveData>>("DataFiles/moves.json");
-        Natures = await Client.GetFromJsonAsync<Dictionary<string, Dictionary<string, int>>>("DataFiles/natures.json");
-        PokedexExtras = await Client.GetFromJsonAsync<Dictionary<string, PokemonJsonPokedexExtra>>("DataFiles/pokedex_extra.json");
-        Pokemon = await Client.GetFromJsonAsync<Dictionary<string, PokemonPokemonData>>("DataFiles/pokemon.json");
-        TrainerClasses = await Client.GetFromJsonAsync<Dictionary<string, List<string>>>("DataFiles/trainer_classes.json");
-        Variants = await Client.GetFromJsonAsync<Dictionary<string, List<string>>>("DataFiles/variant_map.json");
+        Abilities = await Client.GetFromJsonAsync<List<AbilityData>>("DataFiles/abilities.json");
+        EvolveData = await Client.GetFromJsonAsync<List<EvolveData>>("DataFiles/evolve.json");
+        ExpGrid = await Client.GetFromJsonAsync<List<ExpGridData>>("DataFiles/exp_grid.json");
+        Feats = await Client.GetFromJsonAsync<List<FeatData>>("DataFiles/feats.json");
+        Habitats = await Client.GetFromJsonAsync<List<HabitatData>>("DataFiles/habitat.json");
+        Items = await Client.GetFromJsonAsync<List<ItemData>>("DataFiles/items.json");
+        LevelingData = await Client.GetFromJsonAsync<List<LevelingData>>("DataFiles/leveling.json");
+        MoveMachines = await Client.GetFromJsonAsync<List<TMData>>("DataFiles/move_machines.json");
+        Moves = await Client.GetFromJsonAsync<List<MoveData>>("DataFiles/moves.json");
+        Natures = await Client.GetFromJsonAsync<List<NatureData>>("DataFiles/natures.json");
+        Pokemon = await Client.GetFromJsonAsync<List<PokemonData>>("DataFiles/pokemon.json");
+        TrainerClasses = await Client.GetFromJsonAsync<List<TrainerClassData>>("DataFiles/trainer_classes.json");
+        Variants = await Client.GetFromJsonAsync<List<VariantData>>("DataFiles/variant_map.json");
     }
 }
