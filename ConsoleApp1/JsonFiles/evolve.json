@@ -196,7 +196,7 @@
     "current_stage": 2,
     "total_stages": 2
   },
-  "Nidoran ♀": {
+  "Nidoran-f": {
     "into": [
       "Nidorina"
     ],
@@ -218,7 +218,7 @@
     "current_stage": 3,
     "total_stages": 3
   },
-  "Nidoran ♂": {
+  "Nidoran-m": {
     "into": [
       "Nidorino"
     ],
@@ -3849,7 +3849,7 @@
     "current_stage": 2,
     "total_stages": 2
   },
-  "Flabébé": {
+  "Flabebe": {
     "into": [
       "Floette"
     ],
@@ -3903,15 +3903,15 @@
     "points": 12,
     "level": 7,
     "into": [
-      "Meowstic ♂",
-      "Meowstic ♀"
+      "Meowstic-m",
+      "Meowstic-f"
     ]
   },
-  "Meowstic ♂": {
+  "Meowstic-m": {
     "current_stage": 2,
     "total_stages": 2
   },
-  "Meowstic ♀": {
+  "Meowstic-f": {
     "current_stage": 2,
     "total_stages": 2
   },
@@ -4432,7 +4432,7 @@
     "current_stage": 2,
     "total_stages": 2
   },
-  "Type: Null": {
+  "Type Null": {
     "into": [
       "Silvally"
     ],

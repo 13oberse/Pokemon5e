@@ -81,7 +81,6 @@ public record class PokemonJsonPokemon : IPokemonJsonType<PokemonData>
             Attributes = attr,
             Evolve = Evolve,
             Index = Index,
-            Moves = Moves,
             Senses = Senses,
             Size = Enum.Parse<PokemonSize>(Size),
             Skills = Skills,
@@ -97,7 +96,19 @@ public record class PokemonJsonPokemon : IPokemonJsonType<PokemonData>
             WalkSpeed = WalkSpeed,
             MinimumFieldLevel = MinimumFieldLevel,
             Type1 = Types[0].GetPokemonType(),
-            Type2 = Types.Count > 1 ? Types[1].GetPokemonType() : null
+            Type2 = Types.Count > 1 ? Types[1].GetPokemonType() : null,
+            Moves = new DataClasses.PokemonMoveData
+            {
+                LearnByTM = Moves.LearnByTM,
+                StartingMoves = Moves.StartingMoves,
+                LearnByLevelUp = Moves.LearnByLevelUp?
+                    .Select(x => new SerializableKeyValuePair<int, List<string>>
+                    {
+                        Key = int.Parse(x.Key),
+                        Value = x.Value
+                    })
+                    .ToList()
+            }
         };
     }
 }

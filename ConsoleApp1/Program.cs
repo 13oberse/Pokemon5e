@@ -4,6 +4,7 @@ using Common.Models.JsonClasses;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ public static class Program
     public static async Task Main()
     {
         var genderDict = await ReadFileAsJson<Dictionary<string, PokemonGender>>("gender.json");
-        var pokedexExtraData = await ConvertFile<PokemonJsonPokedexExtra, PokedexExtraData>("pokedex_extra.json");
+        var pokedexExtra = await ReadFileAsJson<Dictionary<string, PokemonJsonPokedexExtra>>("pokedex_extra.json");
 
         var expGrid = await ReadFileAsJson<Dictionary<string, Dictionary<string, int>>>("exp_grid.json");
         var expGridData = ExpGridData.GetFromDictionary(expGrid);
@@ -45,27 +46,114 @@ public static class Program
         var variantsData = VariantData.GetFromDictionary(variants);
         await SaveJson(variantsData, "variant_map.json");
 
-        await ConvertAndSaveFile<PokemonJsonAbility, AbilityData>("abilities.json");
-        await ConvertAndSaveFile<PokemonJsonEvolve, EvolveData>("evolve.json");
+        var abilityData = await ConvertAndSaveFile<PokemonJsonAbility, AbilityData>("abilities.json");
+        var evolveData = await ConvertAndSaveFile<PokemonJsonEvolve, EvolveData>("evolve.json");
         await ConvertAndSaveFile<PokemonJsonFeat, FeatData>("feats.json");
         await ConvertAndSaveFile<PokemonJsonItem, ItemData>("items.json");
         await ConvertAndSaveFile<PokemonJsonLeveling, LevelingData>("leveling.json");
 
-        await ConvertAndSaveDirectory<PokemonJsonMove, MoveData>("moves");
+        var moveData = await ConvertAndSaveDirectory<PokemonJsonMove, MoveData>("moves");
 
         var pokemon = await ConvertDirectory<PokemonJsonPokemon, PokemonData>("pokemon");
-        await SaveJson(pokemon, "pokemon.json");
+        var pokemonData = pokemon.ConvertAll(x => x.MakeNewWithExtra(pokedexExtra, genderDict));
 
+        await SaveJson(pokemonData, "pokemon.json");
+        CheckAllData(habitatData, tmData, trainerCLassData, variantsData, abilityData, evolveData, moveData, pokemonData);
         Console.WriteLine("Done");
     }
 
-    //private static void CheckAndConvertAllFiles()
-    //{
-    //await CheckAndSave<PokemonJsonMove>("Error_move.json");
-    //await CheckConvertAndSaveFile<PokemonJsonFilterData, PokemonFilterData>("filter_data.json");
-    //await CheckAndSave<Dictionary<string, List<string>>>("index_order.json");
-    //await CheckAndSave<PokemonJsonPokemon>("MissingNo.json");
-    //}
+    private static void CheckAllData(List<HabitatData> habitatDatas, List<TMData> tms, List<TrainerClassData> trainerClassDatas, List<VariantData> variantDatas,
+        List<AbilityData> abilityDatas, List<EvolveData> evolveDatas, List<MoveData> moveDatas, List<PokemonData> pokemonDatas)
+    {
+        foreach (var variants in variantDatas)
+        {
+            if (pokemonDatas.All(x => x.Name != variants.Name))
+            {
+                throw new Exception($"Variants: {variants.Name} not found");
+            }
+        }
+
+        var variantsList = variantDatas.SelectMany(x => x.Variants).ToList();
+        foreach (var mon in habitatDatas.SelectMany(x => x.Pokemon))
+        {
+            if (pokemonDatas.All(x => x.Name != mon && x.Name != $"{mon}-f" && x.Name != $"{mon}-m") && !variantsList.Contains(mon))
+            {
+                throw new Exception($"Habitat: {mon} not found");
+            }
+        }
+
+        foreach (var trainerClassData in trainerClassDatas)
+        {
+            if (pokemonDatas.All(x => !trainerClassData.Pokemon.Contains(x.Name)))
+            {
+                throw new Exception($"Trainer Class: {trainerClassData.Name} not found {string.Join(";", trainerClassData.Pokemon)}");
+            }
+        }
+
+        foreach (var tm in tms)
+        {
+            if (moveDatas.All(x => x.Name != tm.Name))
+            {
+                throw new Exception($"TM {tm} name not found");
+            }
+        }
+
+        foreach (var pokemon in pokemonDatas)
+        {
+            if (pokemon.Moves.LearnByTM != null)
+            {
+                if (tms.All(x => !pokemon.Moves.LearnByTM.Contains(x.Number)))
+                {
+                    throw new Exception($"TM Move: {string.Join(",", pokemon.Moves.LearnByTM)} not found");
+                }
+            }
+
+            if (pokemon.Moves.LearnByLevelUp != null)
+            {
+                foreach (var levelUp in pokemon.Moves.LearnByLevelUp)
+                {
+                    if (moveDatas.All(x => !levelUp.Value.Contains(x.Name)))
+                    {
+                        throw new Exception($"Level Up Moves {string.Join(",", levelUp.Value)} not found");
+                    }
+                }
+            }
+
+            foreach (var startingMove in pokemon.Moves.StartingMoves)
+            {
+                if (moveDatas.All(x => x.Name != startingMove))
+                {
+                    throw new Exception($"Starting Move {startingMove} not found");
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(pokemon.HiddenAbility) && abilityDatas.All(x => x.Name != pokemon.HiddenAbility))
+            {
+                throw new Exception($"Hidden Ability: {pokemon.HiddenAbility} not found");
+            }
+
+            foreach (var ability in pokemon.Abilities)
+            {
+                if (abilityDatas.All(x => x.Name != ability))
+                {
+                    throw new Exception($"Ability: {ability} not found. {pokemon.Name}");
+                }
+            }
+        }
+
+        foreach (var evolveData in evolveDatas)
+        {
+            if (pokemonDatas.All(x => x.Name != evolveData.Name))
+            {
+                throw new Exception($"Evolve Name: {evolveData.Name} not found");
+            }
+
+            if (evolveData.Into.Count > 0 && pokemonDatas.All(x => !evolveData.Into.Contains(x.Name)))
+            {
+                throw new Exception($"Evolve Into: {string.Join(",", evolveData.Into)} not found");
+            }
+        }
+    }
 
     private static async Task<List<TOutput>> ConvertFile<TInput, TOutput>(string fileName)
         where TInput : IPokemonJsonType<TOutput>
@@ -80,11 +168,12 @@ public static class Program
         return output;
     }
 
-    private static async Task ConvertAndSaveFile<TInput, TOutput>(string fileName)
+    private static async Task<List<TOutput>> ConvertAndSaveFile<TInput, TOutput>(string fileName)
         where TInput : IPokemonJsonType<TOutput>
     {
         var output = await ConvertFile<TInput, TOutput>(fileName);
         await SaveJson(output, fileName);
+        return output;
     }
 
     private static async Task<List<TOutput>> ConvertDirectory<TInput, TOutput>(string directory)
@@ -103,11 +192,12 @@ public static class Program
         return dictionary;
     }
 
-    private static async Task ConvertAndSaveDirectory<TInput, TOutput>(string directory)
+    private static async Task<List<TOutput>> ConvertAndSaveDirectory<TInput, TOutput>(string directory)
         where TInput : IPokemonJsonType<TOutput>
     {
         var output = await ConvertDirectory<TInput, TOutput>(directory);
         await SaveJson(output, $"{directory}.json");
+        return output;
     }
 
     private static async Task<T> ReadFileAsJson<T>(string fileName, bool isCompletePath = false)

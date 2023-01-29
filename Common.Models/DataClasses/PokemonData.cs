@@ -1,4 +1,5 @@
 using Common.Models.JsonClasses;
+using System;
 using System.Collections.Generic;
 
 namespace Common.Models.DataClasses;
@@ -29,7 +30,7 @@ public record PokemonData
 
     public List<SerializableKeyValuePair<PokemonAbilityScore, int>> Attributes { get; init; } = DefaultValues.AbilityScoreIntListDefault;
 
-    public PokemonJsonPokemonMoves Moves { get; init; } = PokemonJsonPokemonMoves.Default;
+    public PokemonMoveData Moves { get; init; } = PokemonMoveData.Default;
 
     public List<string>? Skills { get; init; }
 
@@ -52,4 +53,32 @@ public record PokemonData
     public PokemonGender? Gender { get; init; }
 
     public PokedexExtraData PokedexExtraData { get; init; } = PokedexExtraData.Default;
+
+    public PokemonData MakeNewWithExtra(Dictionary<string, PokemonJsonPokedexExtra> pokedexExtras, Dictionary<string, PokemonGender> genders) => new()
+    {
+        Abilities = Abilities,
+        Attributes = Attributes,
+        Evolve = Evolve,
+        Gender = genders.TryGetValue(Name, out var gender) ? gender : null,
+        Index = Index,
+        Moves = Moves,
+        Name = Name,
+        Senses = Senses,
+        Size = Size,
+        Skills = Skills,
+        Type1 = Type1,
+        Type2 = Type2,
+        ArmorClass = ArmorClass,
+        ClimbSpeed = ClimbSpeed,
+        FlySpeed = FlySpeed,
+        HiddenAbility = HiddenAbility,
+        HitDice = HitDice,
+        HP = HP,
+        SavingThrows = SavingThrows,
+        SpeciesRating = SpeciesRating,
+        SwimSpeed = SwimSpeed,
+        WalkSpeed = WalkSpeed,
+        PokedexExtraData = pokedexExtras.TryGetValue(Index.ToString(), out var extra) ? extra.ToOutput(Name) : throw new Exception("Extra Data not found"),
+        MinimumFieldLevel = MinimumFieldLevel
+    };
 }
